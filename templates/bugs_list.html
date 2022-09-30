@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <div class="container">
+        <div>
+            <a class="btn btn-success" href="/bugs/update/">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                Bug Watch List Update
+            </a>
+        </div>
+        <div>
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    Mass upload
+                </div>
+                <div class="panel-body">
+                    <form method="post"  enctype="multipart/form-data" action="/bugs/multi/">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="file" name="exc">
+                        </div>
+                        <input type="submit" value="upload" class="btn btn-info" >
+
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                Bugs list
+                <div style="float: right;width: 300px">
+                    <form method="get">
+                        <div class="input-group">
+                            <input type="text" name="q" class="form-control" placeholder="Search for...",
+                                   value="{{ search_data }}">
+                            <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        Go!</button>
+                </span>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Table -->
+            <table class="table table-bordered" >
+                <thead>
+                <tr>
+                    <th>BugID</th>
+                    <th>Synopsis</th>
+                    <th>BugAction</th>
+                    <th>Module</th>
+                    <th>CustomKeywords</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in queryset %}
+                    <tr>
+                        <th scope="row" ><a href="{{ obj.buglink }}"> {{ obj.BugId }}</a></th>
+                        <td >{{ obj.Synopsis }}</td>
+                        <td>{{ obj.BugAction }}</td>
+                        <td>{{ obj.Module }}</td>
+
+                        <td> {{ obj.CustomKeywords }} </td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    <ul class="pagination">
+        {{ page_string }}
+    </ul>
+    </div>
+
+
+
+
+{% endblock %}

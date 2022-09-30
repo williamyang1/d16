@@ -1,0 +1,652 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+
+        <div class="panel panel-default">
+            <div class="panel-heading">Line Chart</div>
+            <div class="panel-body">
+                <div id="chart0" style="width: 50%;height:300px;"></div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Line Chart</div>
+            <div class="panel-body">
+                <div id="chart1" style="width: 50%;height:300px;"></div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Line Chart</div>
+            <div class="panel-body">
+                <div id="chart2" style="width: 50%;height:300px;"></div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Line Chart</div>
+            <div class="panel-body">
+                <div id="chart3" style="width: 50%;height:300px;"></div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Line Chart</div>
+            <div class="panel-body">
+                <div id="chart4" style="width: 50%;height:300px;"></div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">Line Chart</div>
+            <div class="panel-body">
+                <div id="chart5" style="width: 50%;height:300px;"></div>
+            </div>
+                    <div class="panel panel-default">
+            <div class="panel-heading">Line Chart</div>
+            <div class="panel-body">
+                <div id="chart6" style="width: 50%;height:300px;"></div>
+            </div>
+                                <div class="panel panel-default">
+            <div class="panel-heading">Line Chart</div>
+            <div class="panel-body">
+                <div id="chart7" style="width: 50%;height:300px;"></div>
+            </div>
+        </div>
+            <div class="panel panel-default">
+            <div class="panel-heading">Line Chart</div>
+            <div class="panel-body">
+                <div id="main" style="width: 100%;height:300px;"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <div class="panel panel-default">
+                    <div class="panel-heading">zhu pic</div>
+                    <div class="panel-body">
+                        <div id="main1" style="width: 100%;height:400px;"></div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">bin Chart</div>
+                    <div class="panel-body">
+                        <div id="main2" style="width: 100%;height:400px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js %}
+    <script type="text/javascript">
+        $(function () {
+            initBar();
+            initPieBar();
+            initLine();
+            initLine0();
+            initLine1();
+            initLine2();
+            initLine3();
+            initLine4();
+            initLine5();
+            initLine6();
+            initLine7();
+        })
+        function initBar() {
+            var myChart = echarts.init(document.getElementById('main1'));
+
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: 'work performance',
+                    subtext:"shanghai",
+                    textAlign:"center",
+                    left:"center",
+                    textVerticalAlign:"top"
+
+                },
+                tooltip: {},
+                legend: {
+                    data:[],
+                    bottom:0,
+
+                },
+                xAxis: {
+                    data: []
+                },
+                yAxis: {},
+                series: [ ],
+
+            };
+
+            $.ajax({
+                url: "/chart/bar/",
+                type: "get",
+                dataType:"JSON",
+                success: function (res) {
+                    if (res.status){
+                        option.legend.data=res.data.legend;
+                        option.xAxis.data=res.data.x_axis;
+                        option.series=res.data.series_list;
+                        myChart.setOption(option);
+                    }
+
+                }
+            } )
+            // 使用刚指定的配置项和数据显示图表。
+
+        }
+
+        // 基于准备好的dom，初始化echarts实例
+        function initPieBar() {
+            var myChart = echarts.init(document.getElementById('main2'));
+
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: 'Depart pay',
+                    subtext: 'shanghai',
+                    left: 'center'
+                },
+                tooltip: {
+                    trigger: 'item'
+                },
+                legend: {
+                    bottom:0
+                },
+                series: [
+                    {
+                        name: 'Pay',
+                        type: 'pie',
+                        radius: '50%',
+                        data: [],
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        }
+                    }
+                ]
+            };
+            $.ajax({
+                url: "/chart/pie/",
+                type: "get",
+                dataType:"JSON",
+                success: function (res) {
+                    if (res.status) {
+                        option.series[0].data=res.data;
+                        myChart.setOption(option);
+                    }
+                }
+            } )
+
+
+            // 使用刚指定的配置项和数据显示图表。
+
+        }
+        function  initLine(){
+            var myChart = echarts.init(document.getElementById('main'));
+
+            // 指定图表的配置项和数据
+            var option = {
+                title: {
+                    text: 'Pay for me',
+                    left: "center",
+
+                },
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: [],
+                    bottom:0
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [  ]
+            };
+            $.ajax({
+                url: "/chart/line/",
+                type: "get",
+                dataType:"JSON",
+                success: function (res) {
+                    if (res.status) {
+                        option.legend.data=res.data.legend;
+                        option.xAxis.data=res.data.x_axis;
+                        option.series=res.data.series_list;
+                        myChart.setOption(option);
+                        console.log()
+                    }
+                }
+            } )
+
+
+        }
+        function  initLine0(){
+            var myChart = echarts.init(document.getElementById('chart0'));
+
+            // 指定图表的配置项和数据
+            var option = {
+
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: [],
+                    {#bottom:0#}
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [  ]
+            };
+            $.ajax({
+                url: "/chart/nvbugs/",
+                type: "get",
+                dataType:"JSON",
+                success: function (res) {
+                    console.log(option)
+                    if (res.status) {
+                        option.legend.data=res.data.legend[0];
+                        option.xAxis.data=res.data.x_axis;
+                        option.series=res.data.series_list[0];
+                        myChart.setOption(option);
+                        console.log()
+                    }
+                }
+            } )
+
+
+        }
+        function  initLine1(){
+            var myChart = echarts.init(document.getElementById('chart1'));
+
+            // 指定图表的配置项和数据
+            var option = {
+
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: [],
+
+                },
+                grid: {
+
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [  ]
+            };
+            $.ajax({
+                url: "/chart/nvbugs/",
+                type: "get",
+                dataType:"JSON",
+                success: function (res) {
+                    if (res.status) {
+                        option.legend.data=res.data.legend[1];
+                        option.xAxis.data=res.data.x_axis;
+                        option.series=res.data.series_list[1];
+                        myChart.setOption(option);
+                        console.log()
+                    }
+                }
+            } )
+
+
+        }
+        function  initLine2(){
+            var myChart = echarts.init(document.getElementById('chart2'));
+
+            // 指定图表的配置项和数据
+            var option = {
+
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: [],
+
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [  ]
+            };
+            $.ajax({
+                url: "/chart/nvbugs/",
+                type: "get",
+                dataType:"JSON",
+                success: function (res) {
+                    if (res.status) {
+                        option.legend.data=res.data.legend[2];
+                        option.xAxis.data=res.data.x_axis;
+                        option.series=res.data.series_list[2];
+                        myChart.setOption(option);
+                        console.log()
+                    }
+                }
+            } )
+
+
+        }
+        function  initLine3(){
+            var myChart = echarts.init(document.getElementById('chart3'));
+
+            // 指定图表的配置项和数据
+            var option = {
+
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: [],
+
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [  ]
+            };
+            $.ajax({
+                url: "/chart/nvbugs/",
+                type: "get",
+                dataType:"JSON",
+                success: function (res) {
+                    if (res.status) {
+                        option.legend.data=res.data.legend[3];
+                        option.xAxis.data=res.data.x_axis;
+                        option.series=res.data.series_list[3];
+                        myChart.setOption(option);
+                        console.log()
+                    }
+                }
+            } )
+
+
+        }
+        function  initLine4(){
+            var myChart = echarts.init(document.getElementById('chart4'));
+
+            // 指定图表的配置项和数据
+            var option = {
+
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: [],
+
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [  ]
+            };
+            $.ajax({
+                url: "/chart/nvbugs/",
+                type: "get",
+                dataType:"JSON",
+                success: function (res) {
+                    if (res.status) {
+                        option.legend.data=res.data.legend[4];
+                        option.xAxis.data=res.data.x_axis;
+                        option.series=res.data.series_list[4];
+                        myChart.setOption(option);
+                        console.log()
+                    }
+                }
+            } )
+
+
+        }
+        function  initLine5(){
+            var myChart = echarts.init(document.getElementById('chart5'));
+
+            // 指定图表的配置项和数据
+            var option = {
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: [],
+
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [  ]
+            };
+            $.ajax({
+                url: "/chart/nvbugs/",
+                type: "get",
+                dataType:"JSON",
+                success: function (res) {
+                    if (res.status) {
+                        option.legend.data=res.data.legend[5];
+                        option.xAxis.data=res.data.x_axis;
+                        option.series=res.data.series_list[5];
+                        myChart.setOption(option);
+                        console.log()
+                    }
+                }
+            } )
+
+
+        }
+function  initLine6(){
+            var myChart = echarts.init(document.getElementById('chart6'));
+
+            // 指定图表的配置项和数据
+            var option = {
+
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: [],
+
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [  ]
+            };
+            $.ajax({
+                url: "/chart/nvbugs/",
+                type: "get",
+                dataType:"JSON",
+                success: function (res) {
+                    if (res.status) {
+                        option.legend.data=res.data.legend[6];
+                        option.xAxis.data=res.data.x_axis;
+                        option.series=res.data.series_list[6];
+                        myChart.setOption(option);
+                        console.log()
+                    }
+                }
+            } )
+
+
+        }
+        function  initLine7(){
+            var myChart = echarts.init(document.getElementById('chart7'));
+
+            // 指定图表的配置项和数据
+            var option = {
+
+                tooltip: {
+                    trigger: 'axis'
+                },
+                legend: {
+                    data: [],
+
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: {
+                    type: 'category',
+                    boundaryGap: false,
+                    data: []
+                },
+                yAxis: {
+                    type: 'value'
+                },
+                series: [  ]
+            };
+            $.ajax({
+                url: "/chart/nvbugs/",
+                type: "get",
+                dataType:"JSON",
+                success: function (res) {
+                    if (res.status) {
+                        option.legend.data=res.data.legend[7];
+                        option.xAxis.data=res.data.x_axis;
+                        option.series=res.data.series_list[7];
+                        myChart.setOption(option);
+                        console.log()
+                    }
+                }
+            } )
+
+
+        }
+    </script>
+{% endblock %}

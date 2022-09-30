@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+<div>
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">New Department</h3>
+            </div>
+            <div class="panel-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" class="form-control"  name="title" placeholder="title">
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+                </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

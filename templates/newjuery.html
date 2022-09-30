@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .menus{
+            width: 200px;
+            height: 200px;
+            border: 1px solid red;
+        }
+        .menus  .head {
+            background-color: gold;
+            padding: 10px 5px;
+        }
+        .menus .content a {
+            display: block;
+            padding: 5px 5px;
+            border-bottom: 1px dotted #dddddd;
+        }
+        .hidden{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="menus">
+    <div class="item">
+        <div class="head" onclick="clickMe(this);">shanghai</div>
+
+
+        <div class="content hidden" >
+        <a>zhabei</a>
+        <a >jinan</a>
+        <a >xuhei</a>
+            </div>
+    </div>
+</div>
+<ul>
+    <li>baidu</li>
+    <li>google</li>
+    <li>shougou</li>
+</ul>
+<h1 id="txt">hahah</h1>
+<script src="../static/js/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+
+    function clickMe(self) {
+     $(self).next().removeClass("hidden")
+    }
+    $("li").click(function (){
+        var text=$(this).text()
+        console.log(text)
+    })
+</script>
+</body>
+
+</html>

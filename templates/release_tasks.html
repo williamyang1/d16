@@ -1,0 +1,86 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ title }}</h3>
+            </div>
+            <div class="panel-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+
+                    <input type="text",  name="version", placeholder="input version">
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+            </div>
+        </div>
+
+        <div>
+        <table class="table table-bordered" border="2">
+                <thead>
+                <tr>
+                    <th>BugID</th>
+                    <th>Synopsis</th>
+                    <th>BugAction</th>
+                    <th>Module</th>
+                    <th>Engineer</th>
+                    <th>CustomKeywords</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in queryset %}
+                    <tr>
+                        <th scope="row" ><a href="{{ obj.buglink }}"> {{ obj.BugId }}</a></th>
+                        <td>{{ obj.Synopsis }}</td>
+                        <td>{{ obj.BugAction }}</td>
+                    <td>{{ obj.Module }}</td>
+                    <td>{{ obj.Engineer }}</td>
+                    <td>{{ obj.CustomKeywords }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+            <div class="panel panel-default">
+
+                <div class="panel-heading">
+                    <span  aria-hidden="true"></span>
+                    Test Result <a href="/release/del/">Clean</a>
+                </div>
+
+
+                <table class="table table-striped" border="1">
+                    <thead>
+                    <tr>
+                        <th>Bug list </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for bug in bug_list %}
+                    <tr>
+                        <td> {{ bug }}</td>
+
+                    </tr>
+                     {% endfor %}
+                    <tr>
+                        <th>Test Results</th>
+                    </tr>
+                    <tr>
+                        {% for Line in result_list %}
+                            <tr>
+                                <td>{{ Line }}</td>
+
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="container">
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">DVS-SC Virtual Submission Triage</h3>
+            </div>
+            <div class="panel-body">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label type="text">Submission UUID</label>
+                        <input type="text",  name="SUUID", placeholder="virtual submission"  class="form-control">
+                    </div>
+
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+
+            </div>
+
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Triage test log</h3>
+            </div>
+            <div class="panel-body">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label type="text">remote test log path </label>
+                        <input type="text",  name="log_path", placeholder="log path"  class="form-control">
+                    </div>
+                    <div class="form-group"> <label type="text">Log File</label>
+                        <input type="file",  name="logfile", placeholder="Log"  class="form-control">
+                    </div>
+                    <div class="form-inline">
+
+                        <div class="form-group"> <label type="text">GPU</label>
+                            <input type="text",  name="gpu", placeholder="gpu"  class="form-control">
+                            <div class="form-group"> <label type="text">Testsuite</label>
+                                <input type="text",  name="testsuite", placeholder="testsuite"  class="form-control">
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <hr/>
+                    <button type="submit" class="btn btn-primary" >Submit</button>
+
+                </form>
+            </div>
+
+
+        </div>
+
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Triage Test result</h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    {% if result_dict.result_link  %}
+                    <a href="/media/{{ result_dict.result_link }}" target="_blank">{{ result_dict.name }}</a>
+                    {% endif %}
+                {% if result_dict.download  %}
+                    <a href="/media/{{ result_dict.download }}" download="{{ result_dict.download }}">{{ result_dict.name }}</a>
+                {% endif %}
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+
+{% endblock %}
+

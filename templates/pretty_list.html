@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <div class="container">
+        <div>
+            <a class="btn btn-success" href="/pretty/add/">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                new number
+            </a>
+        </div>
+        <div style="float: right;width: 300px">
+            <form method="get">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search for...", value="{{ search_data }}">
+                    <span class="input-group-btn">
+                    <button class="btn btn-default" type="submit">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                        Go!</button>
+                </span>
+
+                </div>
+            </form>
+        </div>
+        <div>
+            <div class="panel panel-default">
+                <!-- Default panel contents -->
+                <div class="panel-heading">
+                    <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                    Number list</div>
+                <!-- Table -->
+                <table class="table table-bordered" >
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>number</th>
+                        <th>price</th>
+                        <th>level</th>
+                        <th>status</th>
+                        <th>Opereation</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for obj in queryset %}
+                        <tr>
+
+                            <th>{{ obj.id }}</th>
+                            <td>{{ obj.mobile }}</td>
+                            <td>{{ obj.price }}</td>
+                            <td>{{ obj.get_level_display }}</td>
+                            <td>{{ obj.get_status_display }}</td>
+                            <td>
+                                <a class="btn btn-primary btn-xs" href="/pretty/{{ obj.id }}/edit/">modify</a>
+                                <a class="btn btn-danger btn-xs" href="/pretty/{{ obj.id }}/delete/">delete</a>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <nav aria-label="...">
+      <ul class="pagination">
+      {{ page_string }}
+     </ul>
+        <form method="get">
+            <div class="input-group" style="width: 200px">
+                <input type="text" name="page" class="form-control" placeholder="page">
+                <span class="input-group-btn">
+                <button class="btn btn-default" type="submit">jump to</button>
+            </span>
+
+            </div>
+        </form>
+   </nav>
+    </div>
+
+
+{% endblock %}

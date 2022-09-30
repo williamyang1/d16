@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <style>
+        .navbar {
+            border-radius: 0;
+        }
+    </style>
+    {% block css %}
+    {% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Tasts manage system</a>
+        </div>
+
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/admin/list/">Admin</a>  </li>
+                        <li><a href="/depart/list/">Depart</a>  </li>
+                        <li><a href="/user/list/">User</a>  </li>
+                        <li><a href="/pretty/list/">Pretty</a>  </li>
+                        <li><a href="/task/list/">Task</a>  </li>
+                        <li><a href="/ord/list/">Ord</a>  </li>
+                        <li><a href="/upload/form/">Upload form</a>  </li>
+                        <li><a href="/city/list/">city list</a>  </li>
+                    </ul>
+                </li>
+
+
+                <li><a href="/chart/list/">Data analysis</a>  </li>
+                <li><a href="/triage/tasks/">Triage Tasks</a>  </li>
+                <li><a href="/triage/regression/">Regression Check</a>  </li>
+                <li><a href="/release/tasks/">Release Tasks</a>  </li>
+                <li><a href="/bugs/list/">Bugs</a>  </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ request.session.info.name }} <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">user info</a></li>
+                        <li><a href="#">Informations</a></li>
+
+                        <li role="separator" class="divider"></li>
+                        <li><a href="/logout/">Log out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div>
+    {% block content %}{% endblock %}
+
+
+</div>
+<script src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+
+{% block js %}{% endblock %}
+
+</body>
+</html>

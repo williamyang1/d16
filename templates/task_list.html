@@ -1,0 +1,189 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="container">
+        <div class="panel panel-default">
+            <div class="panel-heading">Table list</div>
+            <div class="panel-body">
+                <form id="formAdd">
+                    <div class="clearfix">
+                        {% for field in form %}
+                            <div class="col-xs-6">
+                                <div class="form-group" style="position: relative;margin-bottom: 20px">
+                                    <label type="text">{{ field.label }}</label>
+                                    {{ field }}
+                                    <span class="error-msg" style="color: red; position: absolute"></span>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="col-xs-12">
+                        <button id="btnAdd" type="button" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                Task list</div>
+            <!-- Table -->
+            <table class="table table-bordered" >
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Level</th>
+                    <th>responsible</th>
+                    <th>Operation</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in queryset %}
+                    <tr>
+                        <th scope="row">{{ obj.id }}</th>
+                        <td>{{ obj.title }}</td>
+                        <td>{{ obj.get_level_display }}</td>
+                        <td>{{ obj.user.username }}</td>
+
+
+                        <td>
+                            <a class="btn btn-primary btn-xs" href="#">modify</a>
+                            <a class="btn btn-danger btn-xs" href="#">delete</a>
+                        </td>
+
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+     <ul class="pagination">
+        {{ page_string }}
+ </ul>
+
+        <div>
+            <h1>Ajax learn</h1>
+            <h3> case 1</h3>
+            <input type="button" id="btn1" class="btn btn-primary" value="click1" />
+            <h3> case 2</h3>
+            <input type="text" id="txtUser" placeholder="name" />
+            <input type="text" id="txtAge" placeholder="pwd" />
+            <input type="button" id="btn2" class="btn btn-primary" value="click2" />
+
+            <h3> case 2</h3>
+            <form id="form3">
+                <input type="text" name="User" placeholder="name" />
+                <input type="text" name="Age" placeholder="pwd" />
+                <input type="text" name="Email" placeholder="email" />
+                <input type="text" name="resume" placeholder="resume" />
+            </form>
+            <input type="button" id="btn3" class="btn btn-primary" value="click3" />
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        $(function () {
+            binBtn1Event();
+        })
+        $(function () {
+            binBtn2Event();
+        })
+        $(function () {
+            binBtn3Event();
+        })
+        $(function () {
+            binBtnAddEvent();
+        })
+        function binBtn1Event() {
+            $("#btn1").click(function () {
+                    $.ajax({
+                        url: "/task/ajax/",
+                        type: "post",
+                        data: {
+                            n1: 123,
+                            n2: 456
+                        },
+                        dataType:"JSON",
+                        success: function (res) {
+                            console.log(res);
+                            console.log(res.status);
+                            console.log(res.data);
+                        }
+                    } )
+                }
+            )
+
+        }
+
+        function binBtn2Event() {
+            $("#btn2").click(function () {
+                    $.ajax({
+                        url: "/task/ajax/",
+                        type: "post",
+                        data: {
+                            user: $("#txtUser").val(),
+                            age: $("#txtAge").val()
+                        },
+                        dataType:"JSON",
+                        success: function (res) {
+                            console.log(res);
+                            console.log(res.status);
+                            console.log(res.data);
+                        }
+                    } )
+                }
+            )
+
+        }
+
+        function binBtn3Event() {
+            $("#btn3").click(function () {
+                    $.ajax({
+                        url: "/task/ajax/",
+                        type: "post",
+                        data:   $("#form3").serialize(),
+
+                        dataType:"JSON",
+                        success: function (res) {
+                            console.log(res);
+                            console.log(res.status);
+                            console.log(res.data);
+                        }
+                    } )
+                }
+            )
+
+        }
+
+        function binBtnAddEvent() {
+            $("#btnAdd").click(function () {
+                    $(".error-msg").empty();
+                    $.ajax({
+                        url: "/task/add/",
+                        type: "post",
+                        data:   $("#formAdd").serialize(),
+
+                        dataType:"JSON",
+                        success: function (res) {
+                            if (res.status) {
+                                alert("Add successful");
+                                location.reload();
+                            } else {
+                                $.each(res.error, function (name,data) {
+
+                                    $("#id_"+name).next().text(data[0])
+                                })
+
+                            }
+                        }
+                    } )
+                }
+            )
+
+        }
+    </script>
+{% endblock %}

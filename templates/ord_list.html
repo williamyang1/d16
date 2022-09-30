@@ -1,0 +1,253 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="container">
+        <div>
+            <input type="button" value="New order1" class="btn btn-primary" data-toggle="modal" data-target="#myModal" >
+            <input id = "btnAdd" type="button" value="New order2" class="btn btn-primary"  >
+
+        </div>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button  type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">New order</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formAdd">
+                        <div class="clearfix">
+                            {% for field in form %}
+                                <div class="col-xs-6">
+                                    <div class="form-group" style="position: relative;margin-bottom: 20px">
+                                        <label type="text">{{ field.label }}</label>
+                                        {{ field }}
+                                        <span class="error-msg" style="color: red; position: absolute"></span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                    </form>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="btnSave" type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myDelModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="alert alert-danger alert-dismissible fade in" role="alert">
+
+                <h4>Are you sure delete!</h4>
+                <p>The action will delete all related Data.</p>
+
+                <p style="text-align: right;">
+                    <button type="button" id="btnConfirmDelete" class="btn btn-danger">Ensure</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            Task list</div>
+        <!-- Table -->
+        <table class="table table-bordered" >
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Order number</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Administrator</th>
+                <th>Operation</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in queryset %}
+                <tr>
+                    <td>{{ obj.id }}</td>
+                    <td>{{ obj.oid }}</td>
+                    <td>{{ obj.title }}</td>
+                    <td>{{ obj.price }}</td>
+                    <td>{{ obj.get_status_display }}</td>
+
+                    <td>{{ obj.admin.username }}</td>
+
+
+                    <td>
+
+                        <input uid="{{ obj.id }}" type="button" class="btn btn-primary btn-xs btn-edit" value="Edit" data-toggle="modal" data-target="#myModal">
+                        <input uid="{{ obj.id }}" type="button" class="btn btn-danger btn-xs btn-delete" value="Delete" data-toggle="modal" data-target="#deleteModal">
+                    </td>
+
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <ul class="pagination">
+        {{ page_string }}
+    </ul>
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        var DELETE_ID;
+    var EDIT_ID;
+        $(function () {
+            bindBtnAddEvent();
+            bindBtnSaveEvent();
+            bindBtnDelEvent();
+
+            bindbtnConfirmDeleteEvent();
+            bindBtnEditEvent();
+        })
+        function bindBtnAddEvent() {
+
+            $("#btnAdd").click(function () {
+                EDIT_ID =undefined;
+                $("#formAdd")[0].reset();
+                $("#myModalLabel").text("New Order");
+                $('#myModal').modal('show');
+            });
+        }
+        function bindBtnEditEvent() {
+            $(".btn-edit").click(function () {
+                {#alert("click edit");#}
+                $("#formAdd")[0].reset();
+                var uid = $(this).attr("uid")
+                EDIT_ID=uid;
+                console.log("XXXXXXXXXXX")
+                $("#myModalLabel").text("Edit Order")
+                $.ajax({
+                    url: "/ord/detail/",
+                    type: "get",
+                    data: {uid:uid},
+
+                    dataType:"JSON",
+                    success: function (res) {
+                        if (res.status) {
+                            console.log(res);
+                            $.each(res.data,function (name,value) {
+                                $("#id_"+name).val(value);
+                            })
+                        }
+                        else {
+                            alert(res.error);
+                        }
+                             }
+                } )
+                {#$('#myModal').modal('show');#}
+            });
+        }
+        function bindBtnSaveEvent() {
+            $("#btnSave").click(function () {
+                $(".error-msg").empty();
+                if (EDIT_ID){
+                    doEdit();
+                } else {
+                    doAdd();
+                }
+
+            });
+        }
+        function doAdd(){
+            $.ajax({
+                    url: "/ord/add/",
+                    type: "post",
+                    data:   $("#formAdd").serialize(),
+
+                    dataType:"JSON",
+                    success: function (res) {
+                        if (res.status) {
+                            {#alert("Add successful");#}
+                            $("#formAdd")[0].reset()
+                            {#$("#myModal").modal('hide')#}
+                            location.reload();
+
+                        } else {
+                            $.each(res.error, function (name,errorList) {
+
+                                $("#id_"+name).next().text(errorList[0])
+                            })
+
+                        }
+                    }
+                } )
+        }
+        function doEdit(){
+            $.ajax({
+                    url: "/ord/edit/"+"?uid="+EDIT_ID,
+                    type: "post",
+                    data:   $("#formAdd").serialize(),
+
+                    dataType:"JSON",
+                    success: function (res) {
+                        if (res.status) {
+
+                            $("#formAdd")[0].reset()
+
+                            location.reload();
+
+                        } else {
+                            if (res.tips) {
+                                alert(res.tips)
+                            } else
+                            $.each(res.error, function (name,errorList) {
+
+                                $("#id_"+name).next().text(errorList[0])
+                            })
+
+                        }
+                    }
+                } )
+        }
+        function bindBtnDelEvent() {
+            $(".btn-delete").click(function () {
+                {#alert("Click delete");#}
+                {#$('#deleteModal').modal('show');#}
+                var uid=$(this).attr("uid");
+                DELETE_ID = uid;
+            });
+        }
+
+        function bindbtnConfirmDeleteEvent(){
+            $("#btnConfirmDelete").click(function () {
+                    $.ajax({
+                        url: "/ord/delete/",
+                        type: "get",
+                        data: {uid: DELETE_ID},
+                        dataType: "JSON",
+                        success: function (res) {
+                            if (res.status) {
+                                DELETE_ID=0;
+                                {#$("#formAdd")[0].reset()#}
+                                {#$("#myModal").modal('hide')#}
+                                location.reload();
+                            } else {
+                                alert(res.error)
+                            }
+
+                        }
+                    })
+
+                }
+            )
+        }
+    </script>
+{% endblock %}
