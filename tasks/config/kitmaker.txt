@@ -1,0 +1,83 @@
+{
+	"rootpath"	:	"http://cuda-internal.nvidia.com/release-candidates/kitbundles/cudnn/",
+	"Branch"	: ["v8.6_cuda_10.2", "v8.6_cuda_11.8" ],
+	"v8.6_cuda_10.2":{
+		"local_installers"	: [
+			"cudnn-local-repo-rhel7-*.x86_64.rpm",         
+			"cudnn-local-repo-rhel8-*.x86_64.rpm",                     
+			"cudnn-local-repo-ubuntu1804-*_amd64.deb",          
+			"cudnn_*_windows.exe"  
+		],
+		"redist/cudnn/cudnn/linux-x86_64"	:	[
+			"cudnn-linux-x86_64-*_cuda10-archive.tar.xz"], 
+		"redist/cudnn/cudnn/windows-x86_64":	[
+			"cudnn-windows-x86_64-*_cuda10-archive.zip"],
+			
+		"redist/cudnn/cudnn_samples/linux-x86_64"	: [
+			"cudnn_samples-linux-x86_64-*_cuda10-archive.tar.xz"],
+		"redist/cudnn/cudnn_samples/windows-x86_64"	: [
+			"cudnn_samples-windows-x86_64-*_cuda10-archive.zip"],
+			
+		"redist/cudnn/cudnn_tests/linux-x86_64"	: [
+			"cudnn_tests-rhel7-x86_64-*_cuda10-archive.tar.xz",                              
+			"cudnn_tests-rhel8-x86_64-*_cuda10-archive.tar.xz",                            
+			"cudnn_tests-ubuntu18_04-x86_64-*_cuda10-archive.tar.xz"],
+		"redist/cudnn/cudnn_tests/windows-x86_64": [
+			"cudnn_tests-windows10-x86_64-*_cuda10-archive.zip"]
+			
+	},
+	"v8.6_cuda_11.8":
+	{
+		"local_installers"	: 	[
+			"cudnn-local-repo-cross-sbsa-ubuntu2004-*_all.deb", 
+			"cudnn-local-repo-rhel7-*.ppc64le.rpm",             
+			"cudnn-local-repo-rhel7-*.x86_64.rpm",              
+			"cudnn-local-repo-rhel8-*.aarch64.rpm",            
+			"cudnn-local-repo-rhel8-*.ppc64le.rpm",            
+			"cudnn-local-repo-rhel8-*.x86_64.rpm",             
+			"cudnn-local-repo-ubuntu1804-*_amd64.deb",                 
+			"cudnn-local-repo-ubuntu2004-*_amd64.deb",         
+			"cudnn-local-repo-ubuntu2004-*_arm64.deb",          
+			"cudnn-local-repo-ubuntu2204-*_amd64.deb",
+            "cudnn-local-repo-debian11-*_amd64.deb",			
+			"cudnn_*_windows.exe" 
+		],
+		"redist/cudnn/cudnn/linux-x86_64"	:	[
+			"cudnn-linux-x86_64-*_cuda11-archive.tar.xz"],
+		"redist/cudnn/cudnn/windows-x86_64"	:	[
+			"cudnn-windows-x86_64-*_cuda11-archive.zip"], 
+		"redist/cudnn/cudnn/linux-ppc64le"	:	[
+			"cudnn-linux-ppc64le-*_cuda11-archive.tar.xz"],
+		"redist/cudnn/cudnn/linux-sbsa"	:	[
+			"cudnn-linux-sbsa-*_cuda11-archive.tar.xz"],
+		"redist/cudnn/cudnn_samples/linux-x86_64"	: [
+			"cudnn_samples-linux-x86_64-*_cuda11-archive.tar.xz"],
+		"redist/cudnn/cudnn_samples/windows-x86_64"	: [
+			"cudnn_samples-windows-x86_64-*_cuda11-archive.zip"], 
+		"redist/cudnn/cudnn_samples/linux-ppc64le"	: [
+			"cudnn_samples-linux-ppc64le-*_cuda11-archive.tar.xz"],
+		"redist/cudnn/cudnn_samples/linux-sbsa"	: [
+			"cudnn_samples-linux-sbsa-*_cuda11-archive.tar.xz "],
+		"redist/cudnn/cudnn_tests/linux-x86_64"	: [
+			"cudnn_tests-rhel7-x86_64-*_cuda11-archive.tar.xz",      
+			"cudnn_tests-rhel8-x86_64-*_cuda11-archive.tar.xz", 
+			"cudnn_tests-ubuntu18_04-x86_64-*_cuda11-archive.tar.xz",  
+			"cudnn_tests-ubuntu20_04-x86_64-*_cuda11-archive.tar.xz",
+			"cudnn_tests-ubuntu22_04-x86_64-*_cuda11-archive.tar.xz"],
+		"redist/cudnn/cudnn_tests/windows-x86_64":
+			["cudnn_tests-windows10-x86_64-*_cuda11-archive.zip" ],
+		"redist/cudnn/cudnn_tests/linux-ppc64le":
+			["cudnn_tests-rhel8-ppc64le-*_cuda11-archive.tar.xz" ], 
+		"redist/cudnn/cudnn_tests/linux-sbsa":
+			["cudnn_tests-rhel8-sbsa-*_cuda11-archive.tar.xz",
+			"cudnn_tests-ubuntu20_04-sbsa-*_cuda11-archive.tar.xz",
+			"cudnn_tests-ubuntu22_04-sbsa-*_cuda11-archive.tar.xz"]
+	}
+}
+
+
+    
+ 
+      
+ 
+
