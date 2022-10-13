@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
     <div class="container">
-
         <div class="panel panel-default">
             <div class="panel-heading">Line Chart</div>
             <div class="panel-body">
@@ -38,52 +37,27 @@
             <div class="panel-body">
                 <div id="chart5" style="width: 50%;height:300px;"></div>
             </div>
-                    <div class="panel panel-default">
+        </div>
+        <div class="panel panel-default">
             <div class="panel-heading">Line Chart</div>
             <div class="panel-body">
                 <div id="chart6" style="width: 50%;height:300px;"></div>
             </div>
-                                <div class="panel panel-default">
+        </div>
+        <div class="panel panel-default">
             <div class="panel-heading">Line Chart</div>
             <div class="panel-body">
                 <div id="chart7" style="width: 50%;height:300px;"></div>
             </div>
         </div>
-            <div class="panel panel-default">
-            <div class="panel-heading">Line Chart</div>
-            <div class="panel-body">
-                <div id="main" style="width: 100%;height:300px;"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-8">
-                <div class="panel panel-default">
-                    <div class="panel-heading">zhu pic</div>
-                    <div class="panel-body">
-                        <div id="main1" style="width: 100%;height:400px;"></div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-sm-4">
-                <div class="panel panel-default">
-                    <div class="panel-heading">bin Chart</div>
-                    <div class="panel-body">
-                        <div id="main2" style="width: 100%;height:400px;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+
 {% endblock %}
 
 
 {% block js %}
     <script type="text/javascript">
         $(function () {
-            initBar();
-            initPieBar();
-            initLine();
             initLine0();
             initLine1();
             initLine2();
@@ -137,8 +111,6 @@
             // 使用刚指定的配置项和数据显示图表。
 
         }
-
-        // 基于准备好的dom，初始化echarts实例
         function initPieBar() {
             var myChart = echarts.init(document.getElementById('main2'));
 
@@ -244,8 +216,6 @@
         }
         function  initLine0(){
             var myChart = echarts.init(document.getElementById('chart0'));
-
-            // 指定图表的配置项和数据
             var option = {
 
                 tooltip: {
@@ -291,13 +261,10 @@
                     }
                 }
             } )
-
-
         }
         function  initLine1(){
             var myChart = echarts.init(document.getElementById('chart1'));
 
-            // 指定图表的配置项和数据
             var option = {
 
                 tooltip: {
@@ -345,16 +312,12 @@
         }
         function  initLine2(){
             var myChart = echarts.init(document.getElementById('chart2'));
-
-            // 指定图表的配置项和数据
             var option = {
-
                 tooltip: {
                     trigger: 'axis'
                 },
                 legend: {
                     data: [],
-
                 },
                 grid: {
                     left: '3%',
@@ -396,16 +359,12 @@
         }
         function  initLine3(){
             var myChart = echarts.init(document.getElementById('chart3'));
-
-            // 指定图表的配置项和数据
             var option = {
-
                 tooltip: {
                     trigger: 'axis'
                 },
                 legend: {
                     data: [],
-
                 },
                 grid: {
                     left: '3%',
@@ -442,21 +401,15 @@
                     }
                 }
             } )
-
-
         }
         function  initLine4(){
             var myChart = echarts.init(document.getElementById('chart4'));
-
-            // 指定图表的配置项和数据
             var option = {
-
                 tooltip: {
                     trigger: 'axis'
                 },
                 legend: {
                     data: [],
-
                 },
                 grid: {
                     left: '3%',
@@ -493,20 +446,15 @@
                     }
                 }
             } )
-
-
         }
         function  initLine5(){
             var myChart = echarts.init(document.getElementById('chart5'));
-
-            // 指定图表的配置项和数据
             var option = {
                 tooltip: {
                     trigger: 'axis'
                 },
                 legend: {
                     data: [],
-
                 },
                 grid: {
                     left: '3%',
@@ -543,21 +491,15 @@
                     }
                 }
             } )
-
-
         }
-function  initLine6(){
+        function  initLine6(){
             var myChart = echarts.init(document.getElementById('chart6'));
-
-            // 指定图表的配置项和数据
             var option = {
-
                 tooltip: {
                     trigger: 'axis'
                 },
                 legend: {
                     data: [],
-
                 },
                 grid: {
                     left: '3%',
@@ -594,13 +536,9 @@ function  initLine6(){
                     }
                 }
             } )
-
-
         }
         function  initLine7(){
             var myChart = echarts.init(document.getElementById('chart7'));
-
-            // 指定图表的配置项和数据
             var option = {
 
                 tooltip: {
@@ -645,8 +583,6 @@ function  initLine6(){
                     }
                 }
             } )
-
-
         }
     </script>
 {% endblock %}

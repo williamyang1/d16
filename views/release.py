@@ -12,8 +12,8 @@ from subprocess import Popen
 
 
 def release_tasks(request):
-    title ="Release tasks"
-    bug_list = [3785542, 3782813,3782592,3775740]
+    title ="kitbundles test"
+    bug_list = [3609771]
     queryset = models.NvBug.objects.filter(BugId__in=bug_list)
     result_list = []
     result_dict= {
@@ -27,7 +27,7 @@ def release_tasks(request):
     if request.method == "POST":
         print(request.POST.get("version"))
         version=request.POST.get("version")
-        #result_list=kitbunds_test(version)
+
         cmd = "python app01/tasks/Kitbunder_build_check.py -v "+ version
         print(cmd)
         outfd, outname = mkstemp()
@@ -35,39 +35,25 @@ def release_tasks(request):
         outfile = fdopen(outfd, "a+")
         proc = Popen(cmd, shell=True, stdout=outfile)
         request.session["kitbunds"] = proc.pid
-
-        print("PPPPPPPPPPPPPPPPPPPPPPPP",proc.pid)
         time.sleep(5)
         filename = request.session["jobfile"]
-
         results = open(filename)
         lines = results.readlines()
-
         result_list.extend(lines)
-        print("WWWWWWWWW5 second")
-        print(result_dict["result_list"])
-
         return render(request, "release_tasks.html", result_dict)
-
-
     if request.method == "GET" and not request.session.has_key("kitbunds"):
-        print("GGGGGG")
         return render(request, "release_tasks.html",result_dict)
     if request.session.has_key("kitbunds"):
-        print("XXXXXXXXXXXXXXXXXXXX")
         filename = request.session["jobfile"]
         print(filename)
         results = open(filename)
         lines = results.readlines()
-
         result_list.extend(lines)
-
     return render(request, "release_tasks.html",result_dict)
 
 def release_del(request):
     if request.session.has_key("kitbunds"):
         job=request.session["kitbunds"]
-
         try:
             if request.session.has_key("jobfile"):
                 filename = request.session["jobfile"]

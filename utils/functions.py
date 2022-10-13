@@ -1,17 +1,17 @@
 import subprocess
 import os
+from subprocess import Popen
+from app01 import models
 def create_list(queryset):
     value=[]
     for i in queryset:
-
         value.append(i[0])
     return value
 
 def nvidia_login(url):
     import requests
     from requests.auth import HTTPBasicAuth
-
-    r = requests.get(url=url, auth=HTTPBasicAuth("williamy", "Williamy1203#"))
+    r = requests.get(url=url, auth=HTTPBasicAuth("williamy", "Y20hg1203wi45#"))
     print(r.text)
 
 def run_cmd(cmd):
@@ -23,38 +23,86 @@ def download(src,dest):
     cmd = "axel -n 100 "+ str(src) +"  --quiet --output " +str(dest)
     filename=os.path.basename(src)
     print(filename)
-    os.system(cmd)
-
+    #os.system(cmd)
+    print(cmd)
     if os.path.exists(dest):
         print("Download pass")
     else:
         print("Download filed")
     return os.path.join(dest,filename)
 
-def log_file_triage(tool_path,logfile,gpu,testsutie):
-    cmd="python3 " + os.path.join(tool_path,"triage_log_file.py") +" --logfile " + logfile + " --gpu " + gpu + " --suite " +testsutie
+def start_triage_file(tool_path,log_filename,gpu_name,version,testsuite):
+    cmd="python3 " + os.path.join(tool_path,"triage_log_file.py") +" --logfile " + log_filename + " --gpu " + gpu_name + " --suite " +testsuite + " --version " +version
     print(cmd)
-    out, err, returncode=run_cmd(cmd)
-    print("OOOout",out)
+    proc = Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if proc.pid:
+        out="Cmd start"
+        print()
+    else:
+        out="###Cmd can't start###"
+    print(out)
     return out
 
-def triage_uuid(tool_path, uuid):
-    cmd="python3 " + os.path.join(tool_path,"main.py") +" --uuid " + str(uuid)
+def start_triage_uuid(tool_path, uuid):
+    #cmd="python3 " + os.path.join(tool_path,"main.py") +" --uuid " + str(uuid)
+    cmd="python myjob.py >>1.txt"
     print(cmd)
-    #out, err, returncode=run_cmd(cmd)
-    # print("##########",out)
-    excel_folder=os.path.join(tool_path,"data","result")
-    #tmp=os.system("ls -lt " + excel_folder)
-    tmp = """total 112
-    -rw-rw-r-- 1 williamy williamy 26112 9月  28 17:57 dvs_sc_31801822_test_result__2022-09-28-15:51:51:0dag.xls
-    -rw-rw-r-- 1 williamy williamy 26112 9月  28 17:57 aa.xls
-    -rw-rw-r-- 1 williamy williamy 26112 9月  28 17:57 dvs_sc_31801822_test_result__2022-09-28-15:51:51:0dag.xls
-    -rw-rw-r-- 1 williamy williamy 26112 9月  28 15:51 dvs_sc_31801822_test_result__2022-09-28-15:51:51:09S.xls
-    """
-    excel_name=get_excel(tmp)
-    return excel_name
+    proc = Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    if proc.pid:
+        out = "Cmd start"
+        print()
+    else:
+        out = "###Cmd can't start###"
+    print(out)
+    return out
 
-def get_excel(out):
-    excel_n=out.split("\n")[1].split(" ")[-1]
-    print(excel_n)
-    return excel_n
+
+def update_uuid_status(uuid):
+    cl=uuid.split(".")[0].strip()
+    cmd = 'ls uuid_triage/data/result/ | grep "dvs_sc_' + str(cl) + '" >tmp.txt'
+    #out = os.system(cmd)
+    file_name="dvs_sc_"+str(cl)+'.xls'
+    with open("tmp.txt") as f:
+        outtext = f.readline()
+        print("outtext", outtext)
+    if outtext.find(cl) != -1:
+        cmd1 = "cd uuid_triage/data/result/ && mv " + outtext.strip() + " " + file_name
+        cmd2 = "cd uuid_triage/data/result/ && mv " + file_name + " " + "../../../media/uuid_result"
+        print(cmd1)
+        print(cmd2)
+        # os.system(cmd1)
+        # os.system(cmd2)
+        if os.path.exists("media/uuid_result/" + file_name):
+            print("File exist")
+            models.UUID_triage.objects.filter(UUID=uuid).update(status="Completed", result_excel="uuid_result/"+file_name)
+        else:
+            print("File in not exist")
+    else:
+        print("No test result for this uuid")
+
+
+def update_log_status(log_pattern):
+    output_pattern = log_pattern.strip("#")
+    print(output_pattern)
+    cmd = 'ls file_triage | grep  ' + output_pattern + ' >tmp.txt'
+    # out = os.system(cmd)
+    with open("tmp.txt") as f:
+        outtext = f.readline()
+        print("outtext", outtext)
+        file_name=outtext
+    if outtext.find(output_pattern) != -1:
+        # cmd1 = "cd uuid_triage/data/result/ && mv " + outtext.strip() + " " + file_name
+        cmd2 = "cd file_triage && mv " + outtext + " " + "../../../media/log_result"
+        print(cmd2)
+
+        # os.system(cmd2)
+        if os.path.exists("media/log_result/" + file_name):
+            print("File exist")
+            models.log_triage.objects.filter(log_result =log_pattern).update(status="Completed",
+                                                                log_result="log_result/" + file_name)
+        else:
+            print("File in not exist")
+    else:
+        print("No test result for this log file")
+    pass
+

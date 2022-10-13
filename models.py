@@ -111,4 +111,12 @@ class UUID(models.Model):
     CL = models.CharField(verbose_name="cl",max_length=32)
     version = models.CharField(verbose_name="version",max_length=32)
 
+class UUID_triage(models.Model):
+    UUID =models.CharField(verbose_name="UUID",max_length=32)
+    status = models.CharField(verbose_name="status",max_length=32)
+    result_excel = models.FileField("result", max_length=128, upload_to="uuid_result/")
 
+class log_triage(models.Model):
+    log_link =models.CharField(verbose_name="log_link",max_length=200)
+    status = models.CharField(verbose_name="status",max_length=32)
+    log_result = models.CharField(verbose_name="log_result",max_length=200)

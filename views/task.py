@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from app01.utils.bootstrap import BootStrapModeForm
 from app01 import models
 from app01.utils.pageaction import PageInaction
+
+
 class TaskModeForm(BootStrapModeForm):
     class Meta:
         model = models.Task

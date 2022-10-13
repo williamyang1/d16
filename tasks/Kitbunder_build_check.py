@@ -104,7 +104,6 @@ def kitbunds_test(version):
 
     return result
 if __name__ == "__main__":
-    print("LLLL")
     kitbunds_test(sys.argv[1])
 
 

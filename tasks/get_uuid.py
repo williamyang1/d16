@@ -15,6 +15,7 @@ def get_version_list(branch):
     result_list=[]
     html_txt = login_get_page(urlb)
     soup = BeautifulSoup(html_txt, 'html.parser')
+
     table_node = soup.find_all('table')[-1]
     lines = table_node.findAll('tr')
     for line in lines[2:]:
@@ -33,7 +34,7 @@ def login_get_page(url):
     from requests.auth import HTTPBasicAuth
 
     try:
-        r = requests.get(url=url,auth=HTTPBasicAuth("williamy","Williamy1203#"))
+        r = requests.get(url=url,auth=HTTPBasicAuth("williamy","Y20hg1203wi45#"))
         #print(r.text)
         return r.text
     except Exception:

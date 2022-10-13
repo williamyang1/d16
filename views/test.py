@@ -15,6 +15,9 @@ from django import forms
 from app01.utils.bootstrap import BootStrapForm, BootStrapModeForm
 from app01 import models
 import time
+from app01.tasks.update_DB import update
+from app01.views.bug import bugs_update
+
 def city_list(request):
     queryset = models.City.objects.all()
     for i in queryset:
@@ -24,14 +27,23 @@ def city_list(request):
         time.sleep(5)
     return HttpResponse("...")
 
-def test(request):
+def update_uuid_table(request):
     print("TEST")
-    city_list(request)
+    update()
     resultj={"result":True}
     return JsonResponse({"result":True})
 
+
 def test1(request):
+    print("TEST")
+    bugs_update(request)
+    resultj={"result":True}
+    return JsonResponse({"result":True})
+
+
+def test(request):
 # def startjob(request):
+    proc=Popen()
     content={
         "result_str":'Not running a job.'+ '<p><a href="/test/">Start a new one?</a>'
     }
@@ -43,17 +55,22 @@ def test1(request):
         request.session["job"]=proc.pid
         print("PPPP",proc.pid)
         print("FFF",request.session["jobfile"])
+        if proc.poll():
+            print("Process have closed")
+        else:
+            print("Still running")
         return render(request,"test.html",content)
     else:
         filename=request.session["jobfile"]
-
-
         results = open(filename)
         lines = results.readlines()
         print("linesSSSSSSS", lines)
         print("TTTTTTTTT")
         content["result_str"] = lines +   ['<p><a href="/test/del/">Terminate?</a>']
-
+        # if proc.poll():
+        #     print("Process have closed")
+        # else:
+        #     print("Still running")
         return render(request,"test.html",content)
 
 

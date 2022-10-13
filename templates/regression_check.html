@@ -2,48 +2,48 @@
 {% block content %}
     <div class="container">
 
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Regression Check</h3>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Regression Check</h3>
+            </div>
+            <div class="panel-body">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label type="text">Test Cases</label>
+                        <input type="testcase",  name="testcase", placeholder="testcase"  class="form-control">
+                    </div>
+                    <div class="form-group"> <label type="text">version</label>
+                        <input type="text",  name="version", placeholder="version"  class="form-control">
+                    </div>
+                    <div class="form-group"> <label type="text">Configuration</label>
+                        <input type="text",  name="configuration", placeholder="configuration"  class="form-control">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
         </div>
-        <div class="panel-body">
-            <form method="post" enctype="multipart/form-data" novalidate>
-                {% csrf_token %}
-                <div class="form-group">
-                    <label type="text">Test Cases</label>
-                    <input type="testcase",  name="testcase", placeholder="testcase"  class="form-control">
-                </div>
-                <div class="form-group"> <label type="text">version</label>
-                    <input type="text",  name="version", placeholder="version"  class="form-control">
-                </div>
-                <div class="form-group"> <label type="text">Configuration</label>
-                    <input type="text",  name="configuration", placeholder="configuration"  class="form-control">
-                </div>
-
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Regression Check Result</h3>
+            </div>
             <table class="table table-bordered" >
                 <thead>
                 <tr>
-
                     <th>Version</th>
                     <th>Configuration</th>
                     <th>test case</th>
                     <th>result</th>
-
                 </tr>
                 </thead>
                 <tbody>
                 {% for obj in content_list %}
                     <tr>
-
                         <td>{{ obj.version }}</td>
                         <td>{{ obj.configuration }}</td>
                         <td>{{ obj.testCase }}</td>
                         <td>{{ obj.result }}</td>
-
-
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -52,29 +52,26 @@
 
 
 
-    </div>
-
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <h3 class="panel-title">Update test result</h3>
-        </div>
-        <div class="panel-body">
-             <form method="post" enctype="multipart/form-data" novalidate>
-                {% csrf_token %}
-                <div>Mysql commands   :<input type="commands",  name="commands", placeholder="commands">
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    <div class="panel panel-default">
-
-                <div class="panel-heading">
-                    <span  aria-hidden="true"></span>
-                    Resut
-                </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">MySQL(dlswqa-nas.nvidia.com) Update</h3>
+            </div>
+            <div class="panel-body">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <div>Mysql commands   :<input type="commands",  name="commands", placeholder="commands">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="panel panel-default">
+{#                <div class="panel-heading">#}
+{#                    <span  aria-hidden="true"></span>#}
+{#                    Resut#}
+{#                </div>#}
 
 
-                <table class="table table-striped" border="1">
+                <table class="table table-striped" >
 
                     <tbody>
                     <tr>
@@ -91,11 +88,11 @@
                 </table>
 
             </div>
+        </div>
+
+
+
     </div>
-
-
-
-</div>
 
 
 

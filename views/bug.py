@@ -10,17 +10,16 @@ from django.db.models import Q
 from app01.utils.get_bug_data_from_nvbug import NvbugsUtils
 
 def bugs_update(request):
-
-    bug = NvbugsUtils("williamy", "Williamy1203#")
-    print(bug.get_bug_details(200742297))
-
+    bug = NvbugsUtils("williamy", "Y20hg1203wi45#")
+    #print(bug.get_bug_details(200742297))
     cuDNN_QA_filed_open_Bugs = 200045751
-    QA_actionable_buts = 200053667
-    QA_actionable_buts=[3785542, 3782813,3782592,3775740]
+    #QA_actionable_buts = 200053667
+    #QA_actionable_buts=[3785542, 3782813,3782592,3775740]
+    QA_actionable_buts = [3609771]
     for bugid in QA_actionable_buts:
+        print("BBBBBBug id",bugid)
         if models.NvBug.objects.filter(BugId=bugid).exists():
             print("Exist")
-
         else:
             print("Not exist")
             BugId,Synopsis,BugAction,Engineer,Version,Module,Disposition, Regression,Keywords,Created,DaysOpen,Origin,Version, ModifiedDate,Priority,RequestDate,Categories,QAEngineer=bug.get_bug_details(bugid)
@@ -44,10 +43,6 @@ def bugs_update(request):
                 buglink=buglink,
                 DaysOpen=DaysOpen,
             )
-
-
-
-
     return HttpResponse("Updating")
 
 def bugs_list(request):

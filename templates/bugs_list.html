@@ -1,16 +1,9 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-
     <div class="container">
         <div>
-            <a class="btn btn-success" href="/bugs/update/">
-                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                Bug Watch List Update
-            </a>
-        </div>
-        <div>
-            <div class="panel panel-default">
+            <div class="panel panel-primary">
                 <!-- Default panel contents -->
                 <div class="panel-heading">
                     <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
@@ -28,7 +21,7 @@
                 </div>
             </div>
         </div>
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
             <!-- Default panel contents -->
             <div class="panel-heading">
                 <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
@@ -57,7 +50,6 @@
                     <th>BugAction</th>
                     <th>Module</th>
                     <th>CustomKeywords</th>
-
                 </tr>
                 </thead>
                 <tbody>
@@ -67,20 +59,14 @@
                         <td >{{ obj.Synopsis }}</td>
                         <td>{{ obj.BugAction }}</td>
                         <td>{{ obj.Module }}</td>
-
                         <td> {{ obj.CustomKeywords }} </td>
-
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
         </div>
-    <ul class="pagination">
-        {{ page_string }}
-    </ul>
+        <ul class="pagination">
+            {{ page_string }}
+        </ul>
     </div>
-
-
-
-
 {% endblock %}

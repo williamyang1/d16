@@ -4,7 +4,7 @@ from app01 import models
 
 def UUID_DB_update():
     from app01.tasks.get_uuid import get_version_list
-    version_prefix="8.6.0."
+    version_prefix="8.7.0."
     branch="cudnn_rc_hopper_cuda_11.8"
     version_list=get_version_list(branch)
     for (uuid,cl,version) in version_list:

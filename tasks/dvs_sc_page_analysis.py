@@ -134,22 +134,23 @@ def get_specific_testCase_result(cmd,testlog):
         if i.find(cmd)!=-1:
             #teseCaseResult=i.split(" ")[-1]
             teseCaseResult=i
+            print("teseCaseResult",teseCaseResult)
             return teseCaseResult
     else:
         teseCaseResult="Not found the test case"
-    # print(teseCaseResult)
+    print(teseCaseResult)
     return teseCaseResult
 
 
 def get_testcase_result(uuid,configuration,testcase):
-    # print("uuid",uuid)
+    print("uuid",uuid)
     # print("CCC",configuration)
     # print(testcase)
     uuid_link=uuid_link="http://scdvs.nvidia.com/Regression_Results?which_changelist="+uuid+"&which_page=current_regressions&which_category=Extended+Sanity"
     page_text = getPage(uuid_link)
     # test_links=get_all_tests(page_text)
     test_dict = get_specific_links(page_text)
-    # print(configuration)
+    print(configuration)
     if configuration not in test_dict.keys():
 
         # print(test_dict.keys())
@@ -159,7 +160,7 @@ def get_testcase_result(uuid,configuration,testcase):
     # testcase = "cudnnTest -Rwgrad -n5 -Ps -algo1 -formatIn1 -filtFormat1 -formatOut1"
     # testcase="RNN -dataType1 -seqLength20 -numLayers2 -inputSize512 -hiddenSize512 -projSize512 -miniBatch64 -inputMode1 -dirMode0 -cellMode2 -biasMode3 -algorithm0"
     result = get_specific_testCase_result(testcase, test_dict[str(configuration)])
-    # print(result)
+    print(result)
     return result
 
 
