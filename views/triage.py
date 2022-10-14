@@ -13,7 +13,7 @@ from app01.utils.functions import download, start_triage_uuid,update_uuid_status
 from app01.utils.functions import start_triage_file
 from django.conf import settings
 uuid_triage_path="uuid_triage"
-file_triage_path="file_triage"
+file_triage_path="file_triage/dlqa_triage"
 def log_test_add(request):
     tool_path = file_triage_path
     print("tool_path",tool_path)
@@ -91,7 +91,7 @@ def uuid_test_add(request):
     tool_path=uuid_triage_path
 
     print("tool_path",tool_path)
-    uuid_result=start_triage_uuid(request,tool_path, test_UUID)
+    uuid_result=start_triage_uuid(tool_path, test_UUID)
     status="Running"
     models.UUID_triage.objects.create(UUID=test_UUID,status=status,result_excel="#")
     return render(request, "triage_tasks.html")

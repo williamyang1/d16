@@ -2,6 +2,7 @@ import subprocess
 import os
 from subprocess import Popen
 from app01 import models
+import shlex
 def create_list(queryset):
     value=[]
     for i in queryset:
@@ -23,7 +24,7 @@ def download(src,dest):
     cmd = "axel -n 100 "+ str(src) +"  --quiet --output " +str(dest)
     filename=os.path.basename(src)
     print(filename)
-    #os.system(cmd)
+    os.system(cmd)
     print(cmd)
     if os.path.exists(dest):
         print("Download pass")
@@ -32,7 +33,7 @@ def download(src,dest):
     return os.path.join(dest,filename)
 
 def start_triage_file(tool_path,log_filename,gpu_name,version,testsuite):
-    cmd="python3 " + os.path.join(tool_path,"triage_log_file.py") +" --logfile " + log_filename + " --gpu " + gpu_name + " --suite " +testsuite + " --version " +version
+    cmd="cd  "+ tool_path+ "&& python3 triage_log_file.py --logfile " + log_filename + " --gpu " + gpu_name + " --suite " +testsuite + " --cudnnVersion " +version
     print(cmd)
     proc = Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if proc.pid:
@@ -44,13 +45,15 @@ def start_triage_file(tool_path,log_filename,gpu_name,version,testsuite):
     return out
 
 def start_triage_uuid(tool_path, uuid):
-    #cmd="python3 " + os.path.join(tool_path,"main.py") +" --uuid " + str(uuid)
-    cmd="python myjob.py >>1.txt"
+    filetmp="tmp.txt"
+    outfile = open(filetmp, "a+")
+    cmd="cd "+tool_path +"&& python3  main.py --uuid " + str(uuid)
     print(cmd)
-    proc = Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    proc = Popen(shlex.split(cmd), shell=True, stdout=outfile)
     if proc.pid:
         out = "Cmd start"
-        print()
+        
+        print(proc.pid)
     else:
         out = "###Cmd can't start###"
     print(out)
@@ -60,7 +63,7 @@ def start_triage_uuid(tool_path, uuid):
 def update_uuid_status(uuid):
     cl=uuid.split(".")[0].strip()
     cmd = 'ls uuid_triage/data/result/ | grep "dvs_sc_' + str(cl) + '" >tmp.txt'
-    #out = os.system(cmd)
+    out = os.system(cmd)
     file_name="dvs_sc_"+str(cl)+'.xls'
     with open("tmp.txt") as f:
         outtext = f.readline()
@@ -70,8 +73,8 @@ def update_uuid_status(uuid):
         cmd2 = "cd uuid_triage/data/result/ && mv " + file_name + " " + "../../../media/uuid_result"
         print(cmd1)
         print(cmd2)
-        # os.system(cmd1)
-        # os.system(cmd2)
+        os.system(cmd1)
+        os.system(cmd2)
         if os.path.exists("media/uuid_result/" + file_name):
             print("File exist")
             models.UUID_triage.objects.filter(UUID=uuid).update(status="Completed", result_excel="uuid_result/"+file_name)
@@ -84,18 +87,18 @@ def update_uuid_status(uuid):
 def update_log_status(log_pattern):
     output_pattern = log_pattern.strip("#")
     print(output_pattern)
-    cmd = 'ls file_triage | grep  ' + output_pattern + ' >tmp.txt'
-    # out = os.system(cmd)
+    cmd = 'ls file_triage/dlqa_triage/ | grep  ' + output_pattern + '| grep ".html" >tmp.txt'
+    out = os.system(cmd)
     with open("tmp.txt") as f:
         outtext = f.readline()
         print("outtext", outtext)
-        file_name=outtext
+        file_name=outtext.strip()
     if outtext.find(output_pattern) != -1:
         # cmd1 = "cd uuid_triage/data/result/ && mv " + outtext.strip() + " " + file_name
-        cmd2 = "cd file_triage && mv " + outtext + " " + "../../../media/log_result"
-        print(cmd2)
-
-        # os.system(cmd2)
+        cmd2 = "cd file_triage/dlqa_triage/ && mv " + file_name + " ../../media/log_result/"
+        print("CMD",cmd2)
+        print("###")
+        os.system(cmd2)
         if os.path.exists("media/log_result/" + file_name):
             print("File exist")
             models.log_triage.objects.filter(log_result =log_pattern).update(status="Completed",
@@ -104,5 +107,4 @@ def update_log_status(log_pattern):
             print("File in not exist")
     else:
         print("No test result for this log file")
-    pass
 
